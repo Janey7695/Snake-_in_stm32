@@ -130,8 +130,8 @@ void Snake_Move()
 	{
 		nextpoi->x=head->x;
 		nextpoi->y=head->y-2;
-		if(nextpoi->y==16)
-			nextpoi->y=54;
+		if(nextpoi->y==14)
+			nextpoi->y=62;
 		nextpoi->next=head;
 		head=nextpoi;
 		if(IF_Get_Food(head->x,head->y)==Get_Food)
@@ -165,7 +165,7 @@ void Snake_Move()
 	{
 		nextpoi->x=head->x;
 		nextpoi->y=head->y+2;
-		if(nextpoi->y==56)
+		if(nextpoi->y==64)
 			nextpoi->y=16;
 		nextpoi->next=head;
 		head=nextpoi;
@@ -269,9 +269,12 @@ void Snake_Move()
 	Draw_Snake_Point(FOOD->x,FOOD->y);
 }
 
+
+
 void GameCir()
 {
 		CanvasClear();
+		Draw_Rect(0,16,127,63,0);
 		Snake_Move();
 		OLED_ShowStrRAM(0,0,"score:",16);
 		if(score<100)
@@ -280,7 +283,7 @@ void GameCir()
 			OLED_ShowNumRAM(48,0,score,3,16);
 		if(score>=1000&score<10000)
 			OLED_ShowNumRAM(48,0,score,4,16);
-		OLED_ShowNumRAM(72,0,(1200-Sleep_Time)/100,4,16);
+		OLED_ShowNumRAM(96,0,(1200-Sleep_Time)/100,4,16);
 		DisPlay();
 		delay_ms(Sleep_Time);
 

@@ -116,6 +116,27 @@ void OLED_ShowChar(u8 x,u8 y,u8 chr)
 				
 			}
 }
+void OLED_ShowChar_Reverse(u8 x,u8 y,u8 chr)
+{      	
+	unsigned char c=0,i=0;	
+		c=chr-' ';//得到偏移后的值			
+		if(x>Max_Column-1){x=0;y=y+2;}
+		if(SIZE ==16)
+			{
+			OLED_Set_Pos(x,y);	
+			for(i=0;i<8;i++)
+			OLED_WR_Byte(~F8X16[c*16+i],OLED_DATA);
+			OLED_Set_Pos(x,y+1);
+			for(i=0;i<8;i++)
+			OLED_WR_Byte(~F8X16[c*16+i+8],OLED_DATA);
+			}
+			else {	
+				OLED_Set_Pos(x,y+1);
+				for(i=0;i<6;i++)
+				OLED_WR_Byte(~F6x8[c][i],OLED_DATA);
+				
+			}
+}
 ////m^n函数
 //u32 oled_pow(u8 m,u8 n)
 //{
@@ -149,14 +170,44 @@ void OLED_ShowChar(u8 x,u8 y,u8 chr)
 //	}
 //} 
 //显示一个字符号串
-void OLED_ShowString(u8 x,u8 y,u8 *chr)
+void OLED_ShowString(u8 x,u8 y,u8 *chr,u8 font)
 {
 	unsigned char j=0;
+	if(font==16)
 	while (chr[j]!='\0')
 	{		OLED_ShowChar(x,y,chr[j]);
 			x+=8;
 		if(x>120){x=0;y+=2;}
 			j++;
+	}
+	else
+	{
+		while (chr[j]!='\0')
+	{		OLED_ShowChar(x,y,chr[j]);
+			x+=6;
+		if(x>122){x=0;y+=2;}
+			j++;
+	}
+	}
+}
+void OLED_ShowString_Reverse(u8 x,u8 y,u8 *chr,u8 font)
+{
+	unsigned char j=0;
+	if(font==16)
+	while (chr[j]!='\0')
+	{		OLED_ShowChar_Reverse(x,y,chr[j]);
+			x+=8;
+		if(x>120){x=0;y+=2;}
+			j++;
+	}
+	else
+	{
+		while (chr[j]!='\0')
+	{		OLED_ShowChar_Reverse(x,y,chr[j]);
+			x+=6;
+		if(x>122){x=0;y+=2;}
+			j++;
+	}
 	}
 }
 //显示汉字
@@ -179,7 +230,7 @@ void OLED_ShowString(u8 x,u8 y,u8 *chr)
 /***********功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7*****************/
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,const unsigned char BMP[])
 { 	
- unsigned int j=0;
+// unsigned int j=0;
  unsigned char x,y;
   
   if(y1%8==0) y=y1/8;      
@@ -187,10 +238,11 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned 
 	for(y=y0;y<y1;y++)
 	{
 		OLED_Set_Pos(x0,y);
-    for(x=x0;x<x1;x++)
+    for(x=x0;x<x1-1;x++)
 	    {      
-	    	OLED_WR_Byte(BMP[j++],OLED_DATA);	    	
+	    	OLED_WR_Byte(BMP[y*128+x+1],OLED_DATA);	    	
 	    }
+		OLED_WR_Byte(BMP[y*128+0],OLED_DATA);
 	}
 } 
 

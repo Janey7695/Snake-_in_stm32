@@ -8,6 +8,26 @@
 #include "AT24Cxx.h"
 
 BOOL flag=1;
+BOOL Choice=1;
+void Menu(void)
+{
+	
+	OLED_DrawBMP(0,0,128,8,BMP2);
+	
+	while(flag)
+	{
+		if(Choice==2)
+		{
+			OLED_ShowString(70,3,"Start",8);
+			OLED_ShowString_Reverse(60,4,"Highlight",8);
+		}
+		if(Choice==1)
+		{
+			OLED_ShowString_Reverse(70,3,"Start",8);
+			OLED_ShowString(60,4,"Highlight",8);
+		}
+	}
+}
 
 
 int main(void)
@@ -20,36 +40,33 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	My_Exit_Init();
 	OLED_Clear();
-	OLED_DrawBMP(0,0,128,7,BMP2);
-	OLED_ShowString(70,4,"Start");
-	while(flag);
+	Menu();
 	while(AT24CXX_Check()==1)
 	{
-		OLED_ShowString(70,4,"Init ");
-		OLED_ShowString(70,5,"Falled");
+		OLED_ShowString(70,4,"Init ",8);
+		OLED_ShowString(70,5,"Falled",8);
 	}
 	Snake_FOOD_Init();
-//	delay_ms(1000);
 	while(Gamestatus)
 	{
 		GameCir();
 	}
-	OLED_DrawBMP(0,0,128,7,BMP3);
+	OLED_DrawBMP(0,0,128,8,BMP3);
 	delay_ms(1000);
 	CanvasClear();
-	OLED_ShowStrRAM(0,0,"Your Final Score ",16);
-	OLED_ShowNumRAM(48,2,score,4,16);
-	OLED_ShowStrRAM(0,4,"   The Highest   ",16);
+	OLED_ShowStrRAM(0,0,"Your Final Score ",8);
+	OLED_ShowNumRAM(48,1,score,4,16);
+	OLED_ShowStrRAM(0,3,"   The Highest   ",8);
 	//从24c32中读取最高分
 	i=(unsigned int)AT24CXX_ReadLenByte(Score_Addres,2);
 	if(score>i)
 	{
 		AT24CXX_WriteLenByte(Score_Addres,score,2);
-		OLED_ShowNumRAM(48,6,score,4,16);
+		OLED_ShowNumRAM(48,4,score,4,16);
 	}
 	else
 	{
-		OLED_ShowNumRAM(48,6,i,4,16);
+		OLED_ShowNumRAM(48,4,i,4,16);
 	}
 	DisPlay();
 	while(1);
@@ -108,26 +125,48 @@ void EXTI9_5_IRQHandler()
 	{
 		if(GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_7)==0)
 		{
-			Food_Score+=5;
-			Sleep_Time-=100;
-			if(Sleep_Time<200)
-				Sleep_Time=200;
-			if(Food_Score>50)
-				Food_Score=50;
-			delay_ms(20);
+			if(!flag)
+			{
+				Food_Score+=5;
+				Sleep_Time-=100;
+				if(Sleep_Time<200)
+					Sleep_Time=200;
+				if(Food_Score>50)
+					Food_Score=50;
+				delay_ms(30);
+			}
+			else
+			{
+				Choice-=1;
+				if(Choice==0)
+					Choice=2;
+				delay_ms(40);
+			}
+			
 			EXTI_ClearITPendingBit(EXTI_Line5);
 			
 			//反转
 		}
 		else
 		{
-			Food_Score-=5;
-			Sleep_Time+=100;
-			if(Sleep_Time>1100)
-				Sleep_Time=1100;
-			if(Food_Score<5)
-				Food_Score=5;
-			delay_ms(20);
+			if(!flag)
+			{
+				Food_Score-=5;
+				Sleep_Time+=100;
+				if(Sleep_Time>1100)
+					Sleep_Time=1100;
+				if(Food_Score<5)
+					Food_Score=5;
+				delay_ms(30);
+			}
+			else
+			{
+				Choice+=1;
+				if(Choice>2)
+					Choice=1;
+				delay_ms(40);
+			}
+			
 			EXTI_ClearITPendingBit(EXTI_Line5);
 			//正转
 		}

@@ -102,10 +102,16 @@ uchar func_x(float k,uchar x1,uchar y1,uchar y)
 }
 
 void Draw_Point(uchar x,uchar y){
+	
 	uchar page,i;
 	page=y/8;
 	i=y%8;
-	BMP[page*8*16+x]|=(0x01<<i);
+//	if(x==0)
+//	BMP[page*8*16+127]|=(0x01<<i);
+//	else
+//	{
+		BMP[page*8*16+x]|=(0x01<<i);
+//	}
 }
 
 void Draw_Line(uchar x1,uchar y1,uchar x2,uchar y2){
@@ -257,7 +263,7 @@ void OLED_ShowNumRAM(unsigned char x,unsigned char y,long int num,unsigned char 
 }
 
 void DisPlay(void){
-	OLED_DrawBMP(0,0,128,7,BMP);
+	OLED_DrawBMP(0,0,128,8,BMP);
 }
 
 
