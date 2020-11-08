@@ -4,10 +4,12 @@ void IIC_Init()
 {
 	GPIO_InitTypeDef GPIO_S;
 	GPIO_S.GPIO_Mode=GPIO_Mode_Out_PP;
-	GPIO_S.GPIO_Pin=GPIO_Pin_3|GPIO_Pin_4;
+	GPIO_S.GPIO_Pin=GPIO_Pin_8|GPIO_Pin_4|GPIO_Pin_3;
 	GPIO_S.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB,&GPIO_S);
-	GPIO_SetBits(GPIOB,GPIO_Pin_3|GPIO_Pin_4);
+	GPIO_SetBits(GPIOB,GPIO_Pin_8);
+	GPIO_SetBits(GPIOB,GPIO_Pin_4);
+	GPIO_SetBits(GPIOB,GPIO_Pin_3);
 }
 
 void IIC_Start()

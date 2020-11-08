@@ -13,8 +13,8 @@ void My_Exit_Init()
 	GPIO_S.GPIO_Mode=GPIO_Mode_IPU;
 	GPIO_S.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIO_S);
-	
-	GPIO_S.GPIO_Pin=GPIO_Pin_7|GPIO_Pin_6|GPIO_Pin_5;
+	//6-¡·9  7-¡·8
+	GPIO_S.GPIO_Pin=GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_5;
 	GPIO_S.GPIO_Mode=GPIO_Mode_IPU;
 	GPIO_S.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB,&GPIO_S);
@@ -25,7 +25,7 @@ void My_Exit_Init()
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA,GPIO_PinSource1);
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA,GPIO_PinSource2);
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA,GPIO_PinSource3);
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource6);
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource9);
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource5);
 	
 	EXTI_S.EXTI_Line=EXTI_Line0;
@@ -58,7 +58,7 @@ void My_Exit_Init()
 	EXTI_S.EXTI_Trigger=EXTI_Trigger_Falling;
 	EXTI_Init(&EXTI_S);
 	
-	EXTI_S.EXTI_Line=EXTI_Line6;
+	EXTI_S.EXTI_Line=EXTI_Line9;
 	EXTI_S.EXTI_LineCmd=ENABLE;
 	EXTI_S.EXTI_Mode=EXTI_Mode_Interrupt;
 	EXTI_S.EXTI_Trigger=EXTI_Trigger_Falling;

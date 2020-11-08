@@ -1,6 +1,6 @@
 ..\obj\at24cxx.o: AT24Cxx.c
 ..\obj\at24cxx.o: AT24Cxx.h
-..\obj\at24cxx.o: i2c.h
+..\obj\at24cxx.o: myiic.h
 ..\obj\at24cxx.o: ..\SYSTEM\sys\sys.h
 ..\obj\at24cxx.o: ..\USER\stm32f10x.h
 ..\obj\at24cxx.o: ..\CORE\core_cm3.h
@@ -32,3 +32,5 @@
 ..\obj\at24cxx.o: ..\FWLib\inc\stm32f10x_wwdg.h
 ..\obj\at24cxx.o: ..\FWLib\inc\misc.h
 ..\obj\at24cxx.o: ..\SYSTEM\delay\delay.h
+..\obj\at24cxx.o: oled.h
+..\obj\at24cxx.o: D:\Keil_5\ARM\ARMCC\Bin\..\include\stdlib.h

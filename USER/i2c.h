@@ -3,12 +3,12 @@
 
 #include "sys.h"
 
-#define SDA_IN() {GPIOB->CRL&=0x0FFFFFFF;GPIOB->CRL|=(unsigned long int)8<<12;}
-#define SDA_OUT() {GPIOB->CRL&=0x0FFFFFFF;GPIOB->CRL|=(unsigned long int)3<<12;}
+#define SDA_IN() {GPIOB->CRL&=0x0FFFFFFF;GPIOB->CRL|=(unsigned long int)8<<32;}
+#define SDA_OUT() {GPIOB->CRL&=0x0FFFFFFF;GPIOB->CRL|=(unsigned long int)3<<32;}
 
 #define IIC_SCL PBout(4) //PB4->SCL
-#define IIC_SDA PBout(3) //PB3->SDA
-#define READ_SDA PBin(3)
+#define IIC_SDA PBout(8) //PB3->SDA
+#define READ_SDA PBin(8)
 
 
 void IIC_Init(void);

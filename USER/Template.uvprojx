@@ -415,14 +415,14 @@
               <FilePath>.\button.c</FilePath>
             </File>
             <File>
-              <FileName>i2c.c</FileName>
+              <FileName>myiic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\i2c.c</FilePath>
+              <FilePath>.\myiic.c</FilePath>
             </File>
             <File>
-              <FileName>AT24Cxx.c</FileName>
+              <FileName>24cxx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\AT24Cxx.c</FilePath>
+              <FilePath>.\24cxx.c</FilePath>
             </File>
           </Files>
         </Group>

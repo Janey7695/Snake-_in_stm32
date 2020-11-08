@@ -5,9 +5,11 @@
 #include "draw_api.h"
 #include "snake.h"
 #include "button.h"
-#include "AT24Cxx.h"
+#include "24cxx.h" 
 
 BOOL flag=1;
+BOOL flag1=1;
+
 BOOL Choice=1;
 void Menu(void)
 {
@@ -26,6 +28,16 @@ void Menu(void)
 			OLED_ShowString_Reverse(70,3,"Start",8);
 			OLED_ShowString(60,4,"Highlight",8);
 		}
+		while(Choice==2&&flag1==0)
+		{
+			unsigned long int i=0;	
+			CanvasClear();
+			OLED_ShowStrRAM(0,0,"   The Highest   ",8);
+			i=(unsigned int)AT24CXX_ReadLenByte(Score_ADDR,2);
+			OLED_ShowNumRAM(48,2,i,4,16);
+			DisPlay();
+			
+		}
 	}
 }
 
@@ -36,16 +48,19 @@ int main(void)
 	SystemInit();	
 	delay_init(72);
 	OLED_Init();
-	AT24CXX_Init();
+	
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	My_Exit_Init();
 	OLED_Clear();
-	Menu();
-	while(AT24CXX_Check()==1)
+	AT24CXX_Init();
+	while(AT24CXX_Check())
 	{
 		OLED_ShowString(70,4,"Init ",8);
 		OLED_ShowString(70,5,"Falled",8);
 	}
+	
+	Menu();
+
 	Snake_FOOD_Init();
 	while(Gamestatus)
 	{
@@ -58,10 +73,10 @@ int main(void)
 	OLED_ShowNumRAM(48,1,score,4,16);
 	OLED_ShowStrRAM(0,3,"   The Highest   ",8);
 	//从24c32中读取最高分
-	i=(unsigned int)AT24CXX_ReadLenByte(Score_Addres,2);
+	i=(unsigned int)AT24CXX_ReadLenByte(Score_ADDR,2);
 	if(score>i)
 	{
-		AT24CXX_WriteLenByte(Score_Addres,score,2);
+		AT24CXX_WriteLenByte(Score_ADDR,score,2);
 		OLED_ShowNumRAM(48,4,score,4,16);
 	}
 	else
@@ -123,7 +138,7 @@ void EXTI9_5_IRQHandler()
 	delay_ms(2);
 	if(GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_5)==0)
 	{
-		if(GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_7)==0)
+		if(GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_8)==0)
 		{
 			if(!flag)
 			{
@@ -172,11 +187,27 @@ void EXTI9_5_IRQHandler()
 		}
 	}
 	delay_ms(9);
-	if(GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_6)==0)
+	if(GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_9)==0)
 	{
-		flag=0;
-		delay_ms(20);
-		EXTI_ClearITPendingBit(EXTI_Line6);
+		if(Choice==1)
+			flag=0;
+		if(Choice==2)
+		{
+			OLED_Clear();
+			if(flag1==0)
+			{
+				flag1=1;
+				OLED_DrawBMP(0,0,128,8,BMP2);
+			}
+				
+			else
+				flag1=0;
+						
+		}
+			
+		
+		delay_ms(100);
+		EXTI_ClearITPendingBit(EXTI_Line9);
 		//按下
 	}
 }

@@ -277,7 +277,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\oled.c</PathWithFileName>
@@ -328,8 +328,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\i2c.c</PathWithFileName>
-      <FilenameWithoutPath>i2c.c</FilenameWithoutPath>
+      <PathWithFileName>.\myiic.c</PathWithFileName>
+      <FilenameWithoutPath>myiic.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -337,11 +337,11 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>9</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\AT24Cxx.c</PathWithFileName>
-      <FilenameWithoutPath>AT24Cxx.c</FilenameWithoutPath>
+      <PathWithFileName>.\24cxx.c</PathWithFileName>
+      <FilenameWithoutPath>24cxx.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
