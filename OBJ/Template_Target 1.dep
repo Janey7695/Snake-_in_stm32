@@ -1,5 +1,5 @@
 Dependencies for Project 'Template', Target 'Target 1': (DO NOT MODIFY !)
-F (.\main.c)(0x5FA7F9D7)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\USER -I ..\CORE -I ..\FWLib\inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart-I"D:\IoT_Engineering_19\学业文档\课外学习\STM32\SNAKE - 副本\USER\RTE"-ID:\Keil_5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\Keil_5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F10X_MD -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x5FA7FAB9)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\USER -I ..\CORE -I ..\FWLib\inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart-I"D:\IoT_Engineering_19\学业文档\课外学习\STM32\SNAKE - 副本\USER\RTE"-ID:\Keil_5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-ID:\Keil_5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F10X_MD -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
 I (D:\Keil_5\ARM\ARMCC\include\stdint.h)(0x574E3E26)
