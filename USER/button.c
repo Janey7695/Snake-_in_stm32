@@ -13,7 +13,7 @@ void My_Exit_Init()
 	GPIO_S.GPIO_Mode=GPIO_Mode_IPU;
 	GPIO_S.GPIO_Speed=GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIO_S);
-	//6-¡·9  7-¡·8
+
 	GPIO_S.GPIO_Pin=GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_5;
 	GPIO_S.GPIO_Mode=GPIO_Mode_IPU;
 	GPIO_S.GPIO_Speed=GPIO_Speed_50MHz;

@@ -14,8 +14,10 @@
 #define OVER 0
 #define BOOL unsigned char
 	
+#define AT24C_XX_EN 0			//是否启用AT24C 1：启用 0：不启用
+	
 
-
+//蛇结点数据结构
 typedef struct Snake
 {
 	unsigned char x;
@@ -23,6 +25,7 @@ typedef struct Snake
 	struct Snake* next;
 }snake;
 
+//食物结点数据结构
 typedef struct Food
 {
 	unsigned char x;
@@ -30,8 +33,7 @@ typedef struct Food
 }food;
 
 
-//extern snake* head;
-//extern snake* q;
+
 extern unsigned char Food_Score;
 extern unsigned int score;
 extern unsigned int Sleep_Time;

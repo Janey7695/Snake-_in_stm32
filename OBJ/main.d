@@ -36,5 +36,3 @@
 ..\obj\main.o: draw_api.h
 ..\obj\main.o: snake.h
 ..\obj\main.o: button.h
-..\obj\main.o: 24cxx.h
-..\obj\main.o: myiic.h

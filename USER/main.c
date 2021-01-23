@@ -5,7 +5,11 @@
 #include "draw_api.h"
 #include "snake.h"
 #include "button.h"
+
+#if AT24C_XX_EN
 #include "24cxx.h" 
+#endif
+
 
 BOOL flag=1;
 BOOL flag1=1;
@@ -23,6 +27,8 @@ void Menu(void)
 			OLED_ShowString(70,3,"Start",8);
 			OLED_ShowString_Reverse(60,4,"Highlight",8);
 		}
+		#if AT24C_XX_EN
+
 		if(Choice==1)
 		{
 			OLED_ShowString_Reverse(70,3,"Start",8);
@@ -38,13 +44,18 @@ void Menu(void)
 			DisPlay();
 			
 		}
+		
+		#endif
 	}
 }
 
 
 int main(void)
 {		
-	unsigned long int i=0;	
+	#if AT24C_XX_EN
+	unsigned long int i=0;
+	#endif
+		
 	SystemInit();	
 	delay_init(72);
 	OLED_Init();
@@ -52,6 +63,9 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	My_Exit_Init();
 	OLED_Clear();
+	
+	#if AT24C_XX_EN
+	
 	AT24CXX_Init();
 	while(AT24CXX_Check())
 	{
@@ -59,9 +73,12 @@ int main(void)
 		OLED_ShowString(70,5,"Falled",8);
 	}
 	
+	#endif
+	
+	
 	Menu();
-
 	Snake_FOOD_Init();
+	
 	while(Gamestatus)
 	{
 		GameCir();
@@ -71,6 +88,10 @@ int main(void)
 	CanvasClear();
 	OLED_ShowStrRAM(0,0,"Your Final Score ",8);
 	OLED_ShowNumRAM(48,1,score,4,16);
+	
+	
+	#if AT24C_XX_EN
+	
 	OLED_ShowStrRAM(0,3,"   The Highest   ",8);
 	//从24c32中读取最高分
 	i=(unsigned int)AT24CXX_ReadLenByte(Score_ADDR,2);
@@ -83,6 +104,9 @@ int main(void)
 	{
 		OLED_ShowNumRAM(48,4,i,4,16);
 	}
+	
+	#endif
+	
 	DisPlay();
 	while(1);
 
@@ -150,6 +174,7 @@ void EXTI9_5_IRQHandler()
 					Food_Score=50;
 				delay_ms(30);
 			}
+			#if AT24C_XX_EN
 			else
 			{
 				Choice-=1;
@@ -157,6 +182,8 @@ void EXTI9_5_IRQHandler()
 					Choice=2;
 				delay_ms(40);
 			}
+			#endif
+			
 			
 			EXTI_ClearITPendingBit(EXTI_Line5);
 			
@@ -174,6 +201,7 @@ void EXTI9_5_IRQHandler()
 					Food_Score=5;
 				delay_ms(30);
 			}
+			#if AT24C_XX_EN
 			else
 			{
 				Choice+=1;
@@ -181,6 +209,8 @@ void EXTI9_5_IRQHandler()
 					Choice=1;
 				delay_ms(40);
 			}
+			#endif
+			
 			
 			EXTI_ClearITPendingBit(EXTI_Line5);
 			//正转

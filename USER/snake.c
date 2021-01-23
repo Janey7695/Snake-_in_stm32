@@ -3,15 +3,17 @@
 #include "stdlib.h"
 #include "delay.h"
 #include "stm32f10x.h"
-snake* head;
-snake* q;
-food* FOOD;
-unsigned char Dir;
-BOOL Gamestatus=GO;
-unsigned int score=0;
-unsigned int Sleep_Time=1000;
-unsigned char Food_Score=10;
 
+snake* head;				//定义蛇头结构体指针
+snake* q;					//定义蛇结点结构体指针
+food* FOOD;					//定义食物结构体指针
+unsigned char Dir;			//方向
+BOOL Gamestatus=GO;			//游戏状态指示
+unsigned int score=0;		//分数
+unsigned int Sleep_Time=1000;//移动间隔（游戏难度）
+unsigned char Food_Score=10;//每个食物加分
+
+//初始化定时器
 void TIM3_Init(unsigned int arr,unsigned int psc)
 {
 	TIM_TimeBaseInitTypeDef TIM_Stru;
@@ -33,7 +35,8 @@ void TIM2_Init(unsigned int arr,unsigned int psc)
 	TIM_TimeBaseInit(TIM2,&TIM_Stru);
 }
 
-//绘制蛇的身体结点
+
+//绘制蛇的身体结点 由于0.96 oled的像素点比较小，因此每个蛇或食物结点都用4个像素点来表示。
 void Draw_Snake_Point(unsigned char x,unsigned char y)
 {
 	Draw_Point(x,y);
@@ -42,23 +45,25 @@ void Draw_Snake_Point(unsigned char x,unsigned char y)
 	Draw_Point(x,y+1);
 }
 
-
+//初始化蛇身与食物
 void Snake_FOOD_Init()
 {
-	snake* tail;
+	snake* tail;			//定义蛇尾指针
 	unsigned char i;
-	TIM3_Init(50,65530);
-	TIM2_Init(15,65530);
+	TIM3_Init(50,65530);	//使用定时器生成0-50的伪随机数
+	TIM2_Init(15,65530);	//使用定时器生成0-15的伪随机数
 	TIM_Cmd(TIM3,ENABLE);
 	TIM_Cmd(TIM2,ENABLE);
-	tail=(snake*)malloc(sizeof(snake));
-	FOOD=(food*)malloc(sizeof(food));
-	FOOD->x=50;
+	tail=(snake*)malloc(sizeof(snake));//为蛇尾结构体申请空间
+	FOOD=(food*)malloc(sizeof(food));//为食物结构体申请空间
+	FOOD->x=50;			//初始食物x=50 y=44
 	FOOD->y=44;
-	tail->x=46;
+	tail->x=46;			//蛇的初始末节在x=46 y=30
 	tail->y=30;
 	tail->next=NULL;
-	CanvasClear();
+	CanvasClear();		//清除画布
+	
+	//通过for循环生成3个蛇身节点作为初始蛇身
 	for(i=1;i<3;i++)
 	{
 		head=(snake*)malloc(sizeof(snake));
@@ -67,14 +72,20 @@ void Snake_FOOD_Init()
 		head->y=30;
 		tail=head;
 	}
+	
+	//将初始好的蛇身画到 画布缓存 上去
 	while(tail)
 	{
 		Draw_Snake_Point(tail->x,tail->y);
 		tail=tail->next;
 	}
 	Draw_Snake_Point(FOOD->x,FOOD->y);
+	
+	//在画布缓存上写字符串
 	OLED_ShowStrRAM(0,0,"score:0",16);
+	//显示 画布缓存 的内容
 	DisPlay();
+	//初始方向为 右
 	Dir=RIGHT;
 }
 
@@ -96,6 +107,7 @@ BOOL IF_Hit(unsigned char x,unsigned char y)
 	return NO_HIT;
 }
 
+//生成一个新的食物，需要保证：1. 食物结点必须是偶数（因为4个像素点才算一个食物结点） 2.不能生成在蛇身上
 void Create_FOOD()
 {
 	FOOD->x=4+TIM3->CNT*2;
@@ -124,16 +136,20 @@ BOOL IF_Get_Food(unsigned char x,unsigned char y)
 //小蛇移动
 void Snake_Move()
 {
+	//先提前创建蛇头结点下一步移动到的结点
 	snake* nextpoi;
 	nextpoi=(snake*)malloc(sizeof(snake));
+	
 	if(Dir==UP)
 	{
+		//将结点逐个推进，然后删除末节点（没吃到食物的话）
 		nextpoi->x=head->x;
 		nextpoi->y=head->y-2;
 		if(nextpoi->y==14)
 			nextpoi->y=62;
 		nextpoi->next=head;
 		head=nextpoi;
+		//如果吃到食物 不删除末结点
 		if(IF_Get_Food(head->x,head->y)==Get_Food)
 		{
 			q=head;
@@ -154,7 +170,7 @@ void Snake_Move()
 			free(q->next);
 			q->next=NULL;
 		}
-		
+		//如果碰到自己 游戏结束
 		if(IF_Hit(head->x,head->y)==HIT)
 		{
 			Gamestatus=OVER;
@@ -270,12 +286,16 @@ void Snake_Move()
 }
 
 
-
+//游戏循环主体
 void GameCir()
 {
+		//清空画布缓存
 		CanvasClear();
+		//绘制一个矩形 作为游戏边框
 		Draw_Rect(0,16,127,63,0);
+		//蛇移动一次
 		Snake_Move();
+		//往缓存写字符串，显示当前分数
 		OLED_ShowStrRAM(0,0,"score:",16);
 		if(score<100)
 			OLED_ShowNumRAM(48,0,score,2,16);
@@ -283,8 +303,11 @@ void GameCir()
 			OLED_ShowNumRAM(48,0,score,3,16);
 		if(score>=1000&score<10000)
 			OLED_ShowNumRAM(48,0,score,4,16);
+		//往缓存写字符串，显示当前难度
 		OLED_ShowNumRAM(96,0,(1200-Sleep_Time)/100,4,16);
+		//显示刚刚绘制到缓存内的一帧画面
 		DisPlay();
+		//延时
 		delay_ms(Sleep_Time);
 
 }
